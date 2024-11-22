@@ -1,0 +1,11 @@
+# Datasets
+data/
+
+# Logs
+lightning_logs/
+
+# CSV split files
+split_csvs/
+
+# Misc
+__pycache__/
