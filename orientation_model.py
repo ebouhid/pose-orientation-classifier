@@ -6,12 +6,12 @@ import timm
 from torch.optim.lr_scheduler import CyclicLR
 
 class OrientationModel(pl.LightningModule):
-    def __init__(self, num_classes=4, lr=1e-3):
+    def __init__(self, num_classes=4, lr=1e-3, backbone_name="resnet101"):
         super(OrientationModel, self).__init__()
         self.save_hyperparameters()
 
         # Load ResNet34 in features_only mode, extracting feature maps from specific layers
-        self.backbone = timm.create_model('resnet101', pretrained=True, features_only=True, out_indices=[-1])  # Extract last feature map
+        self.backbone = timm.create_model(backbone_name, pretrained=True, features_only=True, out_indices=[-1])  # Extract last feature map
         
         # Get the number of channels in the final feature map
         backbone_out_channels = self.backbone.feature_info[-1]['num_chs']
@@ -55,8 +55,6 @@ class OrientationModel(pl.LightningModule):
         outputs = self(images)
         loss = self.loss_fn(outputs, labels.argmax(1))
         self.log('val_loss', loss, prog_bar=False)
-        # print(outputs)
-        # print(outputs.shape, labels.shape)
         val_acc = (torch.softmax(outputs, dim=1).argmax(1) == labels.argmax(1)).float().mean()
         self.log('val_acc', val_acc, prog_bar=True)
         return loss
