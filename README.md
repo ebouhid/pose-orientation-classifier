@@ -3,6 +3,9 @@
 ## Purpose
 
 This project aims to classify the orientation of images into four categories: `back`, `front`, `left`, and `right`. The project includes scripts for training, evaluating, and inferring the orientation of images using a deep learning model.
+Below is an example image showing the four orientations that the model can classify:
+
+![Example Orientations](src_readme/pose_examples.png)
 
 ##  Model Architecture
 
